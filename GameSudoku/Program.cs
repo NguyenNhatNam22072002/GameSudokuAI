@@ -16,7 +16,10 @@ namespace GameSudoku
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Form1());
+            //Application.Run(new GiaoDienChinh());
+            Application.Run(new SudokuForm());
+            //Application.Run(new UserForm());
+
         }
     }
 }
