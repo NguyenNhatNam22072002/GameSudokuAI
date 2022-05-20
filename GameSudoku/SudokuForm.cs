@@ -16,11 +16,11 @@ namespace GameSudoku
     public partial class SudokuForm : Form
     {
         Button[,] btnBacktracking = new Button[Cons.n, Cons.n];
+
         public SudokuForm()
         {
             InitializeComponent();
             drawBoard();
-
         }
         void drawBoard()
         {
@@ -160,15 +160,33 @@ namespace GameSudoku
             timer1.Start();
             if (checkInput())
             {
-                for (int i = 0; i < Cons.n; i++)
+                if (rbtnBT.Checked == true)
                 {
-                    for (int j = 0; j < Cons.n; j++)
+                    for (int i = 0; i < Cons.n; i++)
                     {
-                        if (btnBacktracking[i, j].Text == "")
-                            btnBacktracking[i, j].ForeColor = Color.LightYellow;
+                        for (int j = 0; j < Cons.n; j++)
+                        {
+                            if (btnBacktracking[i, j].Text == "")
+                                btnBacktracking[i, j].ForeColor = Color.LightYellow;
+                        }
+                    }
+                    if (!solve(btnBacktracking)) MessageBox.Show("Can't solve");
+                }
+                else
+                {
+                    if (rbtnHeu.Checked == true)
+                    {
+                        for (int i = 0; i < Cons.n; i++)
+                        {
+                            for (int j = 0; j < Cons.n; j++)
+                            {
+                                if (btnBacktracking[i, j].Text == "")
+                                    btnBacktracking[i, j].ForeColor = Color.LightYellow;
+                            }
+                        }
+                        if (!solveHeu(btnBacktracking)) MessageBox.Show("Can't solve");
                     }
                 }
-                if (!solve(btnBacktracking)) MessageBox.Show("Can't solve");
             }
             else
             {
@@ -188,8 +206,14 @@ namespace GameSudoku
             else num = int.Parse(btnBacktracking[x, y].Text);
 
             num = (num + 1) % 10;
-            if (num == 0) btnBacktracking[x, y].Text = "";
-            else btnBacktracking[x, y].Text = num.ToString();
+            if (num == 0)
+            {
+                btnBacktracking[x, y].Text = "";
+            }
+            else
+            {
+                btnBacktracking[x, y].Text = num.ToString();
+            }
         }
         private void Clear()
         {
@@ -206,10 +230,12 @@ namespace GameSudoku
         {
             Clear();
             labeltick.Text = "0";
+            tick = 0;
         }
 
         private void importBtn_Click(object sender, EventArgs e)
         {
+            tick = 0;
             OpenFileDialog op = new OpenFileDialog();
             op.Filter = "txt file|*.txt";
             if (op.ShowDialog() == DialogResult.OK)
@@ -261,7 +287,6 @@ namespace GameSudoku
                 }
             }
         }
-        int second = 0;
         int tick = 0;
         private void timer_Tick(object sender, EventArgs e)
         {
@@ -269,7 +294,6 @@ namespace GameSudoku
             labeltick.Text = tick.ToString();
             if (tick == 60)
             {
-                second++;
                 tick = 0;
             }
         }
@@ -282,6 +306,89 @@ namespace GameSudoku
         private void btnExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+        //--------------------------Heuristic BT--------------------------
+        Value[,] values = new Value[9, 9];
+        Queue<Value> blankCells = new Queue<Value>();
+        protected Queue<int[]> route = new Queue<int[]>(new LinkedList<int[]>());
+        protected Stack<int[]> hints = new Stack<int[]>();
+
+        // find the solution
+        public bool solveHeu(Button[,] btnBacktracking)
+        {
+            updateValues();
+            if (blankCells.Count() != 0)
+            {
+
+                Value vals = blankCells.Dequeue();// trả về phần tử đầu tiên và xoá nó ra khỏi PriorityQueue.
+                int row = vals.getRow(), col = vals.getCol();
+
+                foreach(char num in vals.getValues())
+                {
+                    if (isValid(btnBacktracking, row, col, num))
+                    {
+                        Demo(row, col, num);
+                        btnBacktracking[row,col].Text = num.ToString();
+                        int[] cell = {row, col, Convert.ToInt32(num)};
+                        route.Enqueue(cell);
+                        if (solveHeu(btnBacktracking))
+                        {
+                            hints.Push(cell);
+                            return true;
+                        }
+                        // there are no solutions for this num
+                        btnBacktracking[row, col].Text = "";
+                        int[] cell2 = { row, col, 0 };
+                        route.Enqueue(cell2);
+                    }
+                }
+                // no solutions
+                return false;
+            }
+            return true;
+        }
+
+        // find values for all the cells
+        private void updateValues()
+        {
+            Value[] val2 = new Value[9*9];
+            int d = 0;
+            blankCells.Clear();
+            for (int row = 0; row < 9; row++)
+                for (int col = 0; col < 9; col++)
+                {
+                    if (btnBacktracking[row, col].Text == "")
+                    {
+                        Value val = possibleValues(row, col);
+                        values[row, col] = val;
+                        val2[d++] = val;
+                    }
+                }
+            for(int i = 0; i < d - 1; i++)
+                for(int j = i+1; j < d; j++)
+                    if(val2[i].compareTo(val2[j])>0)
+                        Swap(ref val2[i], ref val2[j]);
+
+            for (int i = 0; i < d; i++)
+                blankCells.Enqueue(val2[i]);
+        }
+        public static void Swap(ref Value x, ref Value y)
+        {
+            Value tmp = x;
+            x = y;
+            y = tmp;
+        }
+
+        // return all the possible values for the current cell
+        private Value possibleValues(int row, int col)
+        {
+            Value result = new Value(row, col);
+            if (btnBacktracking[row, col].Text != "")
+                return result;
+            for (char i = '1'; i <= '9'; i++)
+                if (isValid(btnBacktracking, row, col, i))
+                    result.add(i);
+            return result;
         }
     }
 }

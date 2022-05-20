@@ -44,8 +44,8 @@ namespace GameSudoku
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
-            this.radioButton1 = new System.Windows.Forms.RadioButton();
-            this.radioButton2 = new System.Windows.Forms.RadioButton();
+            this.rbtnBT = new System.Windows.Forms.RadioButton();
+            this.rbtnHeu = new System.Windows.Forms.RadioButton();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -199,36 +199,36 @@ namespace GameSudoku
             this.pictureBox3.TabIndex = 12;
             this.pictureBox3.TabStop = false;
             // 
-            // radioButton1
+            // rbtnBT
             // 
-            this.radioButton1.AutoSize = true;
-            this.radioButton1.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton1.ForeColor = System.Drawing.Color.Yellow;
-            this.radioButton1.Location = new System.Drawing.Point(16, 13);
-            this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(197, 26);
-            this.radioButton1.TabIndex = 13;
-            this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "Backtracking";
-            this.radioButton1.UseVisualStyleBackColor = true;
+            this.rbtnBT.AutoSize = true;
+            this.rbtnBT.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbtnBT.ForeColor = System.Drawing.Color.Yellow;
+            this.rbtnBT.Location = new System.Drawing.Point(16, 13);
+            this.rbtnBT.Name = "rbtnBT";
+            this.rbtnBT.Size = new System.Drawing.Size(197, 26);
+            this.rbtnBT.TabIndex = 13;
+            this.rbtnBT.TabStop = true;
+            this.rbtnBT.Text = "Backtracking";
+            this.rbtnBT.UseVisualStyleBackColor = true;
             // 
-            // radioButton2
+            // rbtnHeu
             // 
-            this.radioButton2.AutoSize = true;
-            this.radioButton2.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.radioButton2.ForeColor = System.Drawing.Color.Yellow;
-            this.radioButton2.Location = new System.Drawing.Point(253, 13);
-            this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(186, 26);
-            this.radioButton2.TabIndex = 14;
-            this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "Heuristic BT";
-            this.radioButton2.UseVisualStyleBackColor = true;
+            this.rbtnHeu.AutoSize = true;
+            this.rbtnHeu.Font = new System.Drawing.Font("Ravie", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.rbtnHeu.ForeColor = System.Drawing.Color.Yellow;
+            this.rbtnHeu.Location = new System.Drawing.Point(253, 13);
+            this.rbtnHeu.Name = "rbtnHeu";
+            this.rbtnHeu.Size = new System.Drawing.Size(186, 26);
+            this.rbtnHeu.TabIndex = 14;
+            this.rbtnHeu.TabStop = true;
+            this.rbtnHeu.Text = "Heuristic BT";
+            this.rbtnHeu.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
-            this.groupBox1.Controls.Add(this.radioButton2);
-            this.groupBox1.Controls.Add(this.radioButton1);
+            this.groupBox1.Controls.Add(this.rbtnHeu);
+            this.groupBox1.Controls.Add(this.rbtnBT);
             this.groupBox1.Location = new System.Drawing.Point(172, 9);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(468, 44);
@@ -295,8 +295,8 @@ namespace GameSudoku
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Button btnExit;
         private System.Windows.Forms.PictureBox pictureBox3;
-        private System.Windows.Forms.RadioButton radioButton1;
-        private System.Windows.Forms.RadioButton radioButton2;
+        private System.Windows.Forms.RadioButton rbtnBT;
+        private System.Windows.Forms.RadioButton rbtnHeu;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label3;
     }
