@@ -20,23 +20,23 @@ namespace GameSudoku
         {
             InitializeComponent();
             drawBoard();
-            timer.Start();
+
         }
         void drawBoard()
         {
-            for(int i = 0; i < Cons.n; i++)
+            for (int i = 0; i < Cons.n; i++)
             {
                 for (int j = 0; j < Cons.n; j++)
                 {
                     btnBacktracking[i, j] = new Button();
                     btnBacktracking[i, j].Size = new Size(Cons.btn_size, Cons.btn_size);
                     btnBacktracking[i, j].Text = "";
-                    btnBacktracking[i, j].Font = new Font("Microsoft Sans Serif", 15, FontStyle.Bold) ;
+                    btnBacktracking[i, j].Font = new Font("Microsoft Sans Serif", 15, FontStyle.Bold);
                     btnBacktracking[i, j].ForeColor = Color.White;
                     btnBacktracking[i, j].Location = new Point(j * Cons.btn_size, i * Cons.btn_size);
-                    if(((i < 3 || i > 5) && (j > 2 && j < 6)) || ((j < 3 || j > 5) && (i > 2 && i < 6)))
+                    if (((i < 3 || i > 5) && (j > 2 && j < 6)) || ((j < 3 || j > 5) && (i > 2 && i < 6)))
                     {
-                        btnBacktracking[i, j].BackColor = Color.RoyalBlue;
+                        btnBacktracking[i, j].BackColor = Color.SaddleBrown;
                     }
                     btnBacktracking[i, j].Click += new EventHandler(btnClick);
                     panel.Controls.Add(btnBacktracking[i, j]);
@@ -45,7 +45,7 @@ namespace GameSudoku
         }
         private static bool isValid(Button[,] btnBacktracking, int row, int col, char c)
         {
-            for(int i = 0; i < Cons.n; i++)
+            for (int i = 0; i < Cons.n; i++)
             {
                 //check row
                 if (btnBacktracking[i, col].Text != "" && btnBacktracking[i, col].Text == c.ToString())
@@ -59,7 +59,7 @@ namespace GameSudoku
             }
             return true;
         }
-        private static bool solve(Button[,] btnBacktracking)
+        private bool solve(Button[,] btnBacktracking)
         {
             for (int i = 0; i < btnBacktracking.GetLength(0); i++)
             {
@@ -67,10 +67,11 @@ namespace GameSudoku
                 {
                     if (btnBacktracking[i, j].Text == "")
                     {
-                        for(char c = '1'; c <= '9'; c++)
+                        for (char c = '1'; c <= '9'; c++)
                         {
-                            if(isValid(btnBacktracking, i , j, c))
+                            if (isValid(btnBacktracking, i, j, c))
                             {
+                                Demo(i, j, c);
                                 btnBacktracking[i, j].Text = c.ToString();
                                 if (solve(btnBacktracking)) return true;
                                 else
@@ -84,6 +85,16 @@ namespace GameSudoku
                 }
             }
             return true;
+        }
+        Form1 f = new Form1()
+        {
+            Location = new Point(0, 0)
+        };
+        public void Demo(int i, int j, char c)
+        {
+            Thread.Sleep(10);
+            f.ShowDialog();
+            //btnBacktracking[i, j].Text = c.ToString();
         }
         private bool checkInput()
         {
@@ -145,7 +156,8 @@ namespace GameSudoku
         }
         private void solveBtn_Click(object sender, EventArgs e)
         {
-            //Cons.stopwatch.Start();
+            timer.Start();
+            timer1.Start();
             if (checkInput())
             {
                 for (int i = 0; i < Cons.n; i++)
@@ -162,9 +174,9 @@ namespace GameSudoku
             {
                 MessageBox.Show("Please check the input!");
             }
-            //Cons.stopwatch.Stop();
-            //MessageBox.Show(Cons.stopwatch.Elapsed.ToString());
             timer.Stop();
+            timer1.Stop();
+
         }
         private void btnClick(object sender, EventArgs e)
         {
@@ -260,6 +272,11 @@ namespace GameSudoku
                 tick = 0;
             }
             labelsecond.Text = second.ToString();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            f.Close();
         }
     }
 }

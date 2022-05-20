@@ -48,6 +48,12 @@
   <ItemGroup>
     <Compile Include="Backtracking.cs" />
     <Compile Include="Cons.cs" />
+    <Compile Include="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form1.Designer.cs">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="SudokuForm.cs">
       <SubType>Form</SubType>
@@ -56,6 +62,9 @@
       <DependentUpon>SudokuForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SudokuForm.resx">
       <DependentUpon>SudokuForm.cs</DependentUpon>
     </EmbeddedResource>
