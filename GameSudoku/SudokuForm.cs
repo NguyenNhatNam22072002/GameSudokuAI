@@ -205,6 +205,7 @@ namespace GameSudoku
         private void newBtn_Click(object sender, EventArgs e)
         {
             Clear();
+            labeltick.Text = "0";
         }
 
         private void importBtn_Click(object sender, EventArgs e)
@@ -271,12 +272,16 @@ namespace GameSudoku
                 second++;
                 tick = 0;
             }
-            labelsecond.Text = second.ToString();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
             f.Close();
+        }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
         }
     }
 }

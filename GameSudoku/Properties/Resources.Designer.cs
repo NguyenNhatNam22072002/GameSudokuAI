@@ -63,6 +63,26 @@ namespace GameSudoku.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Khung {
+            get {
+                object obj = ResourceManager.GetObject("Khung", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap MuiTen {
+            get {
+                object obj = ResourceManager.GetObject("MuiTen", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap pngSudoku {
             get {
                 object obj = ResourceManager.GetObject("pngSudoku", resourceCulture);

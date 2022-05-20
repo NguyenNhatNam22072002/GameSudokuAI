@@ -94,5 +94,11 @@
   <ItemGroup>
     <None Include="Resources\1039627283-removebg-preview.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hinh-anh-mui-ten-3d-di-xuong_122003932-removebg-preview.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\hqdefault.jpg" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
