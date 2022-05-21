@@ -15,7 +15,7 @@ namespace GameSudoku
 {
     public partial class SudokuForm : Form
     {
-        Button[,] btnBacktracking = new Button[Cons.n, Cons.n];
+        Button[,] btnSudoku = new Button[Cons.n, Cons.n];
 
         public SudokuForm()
         {
@@ -28,55 +28,55 @@ namespace GameSudoku
             {
                 for (int j = 0; j < Cons.n; j++)
                 {
-                    btnBacktracking[i, j] = new Button();
-                    btnBacktracking[i, j].Size = new Size(Cons.btn_size, Cons.btn_size);
-                    btnBacktracking[i, j].Text = "";
-                    btnBacktracking[i, j].Font = new Font("Microsoft Sans Serif", 15, FontStyle.Bold);
-                    btnBacktracking[i, j].ForeColor = Color.White;
-                    btnBacktracking[i, j].Location = new Point(j * Cons.btn_size, i * Cons.btn_size);
+                    btnSudoku[i, j] = new Button();
+                    btnSudoku[i, j].Size = new Size(Cons.btn_size, Cons.btn_size);
+                    btnSudoku[i, j].Text = "";
+                    btnSudoku[i, j].Font = new Font("Microsoft Sans Serif", 15, FontStyle.Bold);
+                    btnSudoku[i, j].ForeColor = Color.White;
+                    btnSudoku[i, j].Location = new Point(j * Cons.btn_size, i * Cons.btn_size);
                     if (((i < 3 || i > 5) && (j > 2 && j < 6)) || ((j < 3 || j > 5) && (i > 2 && i < 6)))
                     {
-                        btnBacktracking[i, j].BackColor = Color.SaddleBrown;
+                        btnSudoku[i, j].BackColor = Color.SaddleBrown;
                     }
-                    btnBacktracking[i, j].Click += new EventHandler(btnClick);
-                    panel.Controls.Add(btnBacktracking[i, j]);
+                    btnSudoku[i, j].Click += new EventHandler(btnClick);
+                    panel.Controls.Add(btnSudoku[i, j]);
                 }
             }
         }
-        private static bool isValid(Button[,] btnBacktracking, int row, int col, char c)
+        private static bool isValid(Button[,] btnSudoku, int row, int col, char c)
         {
             for (int i = 0; i < Cons.n; i++)
             {
                 //check row
-                if (btnBacktracking[i, col].Text != "" && btnBacktracking[i, col].Text == c.ToString())
+                if (btnSudoku[i, col].Text != "" && btnSudoku[i, col].Text == c.ToString())
                     return false;
                 //check column
-                if (btnBacktracking[row, i].Text != "" && btnBacktracking[row, i].Text == c.ToString())
+                if (btnSudoku[row, i].Text != "" && btnSudoku[row, i].Text == c.ToString())
                     return false;
                 //check 3x3 block
-                if (btnBacktracking[3 * (row / 3) + i / 3, 3 * (col / 3) + i % 3].Text != "" && btnBacktracking[3 * (row / 3) + i / 3, 3 * (col / 3) + i % 3].Text == c.ToString())
+                if (btnSudoku[3 * (row / 3) + i / 3, 3 * (col / 3) + i % 3].Text != "" && btnSudoku[3 * (row / 3) + i / 3, 3 * (col / 3) + i % 3].Text == c.ToString())
                     return false;
             }
             return true;
         }
-        private bool solve(Button[,] btnBacktracking)
+        private bool solve(Button[,] btnSudoku)
         {
-            for (int i = 0; i < btnBacktracking.GetLength(0); i++)
+            for (int i = 0; i < btnSudoku.GetLength(0); i++)
             {
-                for (int j = 0; j < btnBacktracking.GetLength(1); j++)
+                for (int j = 0; j < btnSudoku.GetLength(1); j++)
                 {
-                    if (btnBacktracking[i, j].Text == "")
+                    if (btnSudoku[i, j].Text == "")
                     {
                         for (char c = '1'; c <= '9'; c++)
                         {
-                            if (isValid(btnBacktracking, i, j, c))
+                            if (isValid(btnSudoku, i, j, c))
                             {
                                 Demo(i, j, c);
-                                btnBacktracking[i, j].Text = c.ToString();
-                                if (solve(btnBacktracking)) return true;
+                                btnSudoku[i, j].Text = c.ToString();
+                                if (solve(btnSudoku)) return true;
                                 else
                                 {
-                                    btnBacktracking[i, j].Text = "";
+                                    btnSudoku[i, j].Text = "";
                                 }
                             }
                         }
@@ -94,7 +94,7 @@ namespace GameSudoku
         {
             Thread.Sleep(10);
             f.ShowDialog();
-            //btnBacktracking[i, j].Text = c.ToString();
+            //btnSudoku[i, j].Text = c.ToString();
         }
         private bool checkInput()
         {
@@ -102,37 +102,37 @@ namespace GameSudoku
             {
                 for (int j = 0; j < Cons.n; j++)
                 {
-                    if (btnBacktracking[i, j].Text != "")
+                    if (btnSudoku[i, j].Text != "")
                     {
                         for (int k = i + 1; k < 9; ++k)  // kiem tra theo hang
                         {
-                            if (btnBacktracking[i, j].Text != "")
+                            if (btnSudoku[i, j].Text != "")
                             {
-                                if (btnBacktracking[i, j].Text == btnBacktracking[k, j].Text)
+                                if (btnSudoku[i, j].Text == btnSudoku[k, j].Text)
                                     return false;
                             }
                         }
                         for (int k = 0; k < i; ++k)  // kiem tra theo hang
                         {
-                            if (btnBacktracking[i, j].Text != "")
+                            if (btnSudoku[i, j].Text != "")
                             {
-                                if (btnBacktracking[i, j].Text == btnBacktracking[k, j].Text)
+                                if (btnSudoku[i, j].Text == btnSudoku[k, j].Text)
                                     return false;
                             }
                         }
                         for (int k = j + 1; k < 9; ++k)  // kiem tra theo hang
                         {
-                            if (btnBacktracking[i, j].Text != "")
+                            if (btnSudoku[i, j].Text != "")
                             {
-                                if (btnBacktracking[i, j].Text == btnBacktracking[i, k].Text)
+                                if (btnSudoku[i, j].Text == btnSudoku[i, k].Text)
                                     return false;
                             }
                         }
                         for (int k = 0; k < j; ++k)  // kiem tra theo hang
                         {
-                            if (btnBacktracking[i, j].Text != "")
+                            if (btnSudoku[i, j].Text != "")
                             {
-                                if (btnBacktracking[i, j].Text == btnBacktracking[i, k].Text)
+                                if (btnSudoku[i, j].Text == btnSudoku[i, k].Text)
                                     return false;
                             }
                         }
@@ -143,9 +143,9 @@ namespace GameSudoku
                             for (int m = 0; m < 3; ++m)
                                 if ((boxRowOffset + k) != i && boxColOffset + m != j)
                                 {
-                                    if (btnBacktracking[boxRowOffset + k, boxColOffset + m].Text != "")
+                                    if (btnSudoku[boxRowOffset + k, boxColOffset + m].Text != "")
                                     {
-                                        if (btnBacktracking[i, j].Text == btnBacktracking[boxRowOffset + k, boxColOffset + m].Text)
+                                        if (btnSudoku[i, j].Text == btnSudoku[boxRowOffset + k, boxColOffset + m].Text)
                                             return false;
                                     }
                                 }
@@ -166,11 +166,11 @@ namespace GameSudoku
                     {
                         for (int j = 0; j < Cons.n; j++)
                         {
-                            if (btnBacktracking[i, j].Text == "")
-                                btnBacktracking[i, j].ForeColor = Color.LightYellow;
+                            if (btnSudoku[i, j].Text == "")
+                                btnSudoku[i, j].ForeColor = Color.LightYellow;
                         }
                     }
-                    if (!solve(btnBacktracking)) MessageBox.Show("Can't solve");
+                    if (!solve(btnSudoku)) MessageBox.Show("Can't solve");
                 }
                 else
                 {
@@ -180,11 +180,18 @@ namespace GameSudoku
                         {
                             for (int j = 0; j < Cons.n; j++)
                             {
-                                if (btnBacktracking[i, j].Text == "")
-                                    btnBacktracking[i, j].ForeColor = Color.LightYellow;
+                                if (btnSudoku[i, j].Text == "")
+                                    btnSudoku[i, j].ForeColor = Color.LightYellow;
                             }
                         }
-                        if (!solveHeu(btnBacktracking)) MessageBox.Show("Can't solve");
+                        if (!solveHeu(btnSudoku)) MessageBox.Show("Can't solve");
+                    }
+                    else
+                    {
+                        timer.Stop();
+                        timer1.Stop();
+                        MessageBox.Show("Please choose an algorithm!!!");
+                        return;
                     }
                 }
             }
@@ -194,7 +201,7 @@ namespace GameSudoku
             }
             timer.Stop();
             timer1.Stop();
-
+            MessageBox.Show("Time run: " + labeltick.Text + "s");
         }
         private void btnClick(object sender, EventArgs e)
         {
@@ -202,17 +209,17 @@ namespace GameSudoku
             Button btn = (Button)sender;
             int y = (btn.Location.X) / Cons.btn_size;
             int x = (btn.Location.Y) / Cons.btn_size;
-            if (btnBacktracking[x, y].Text == "") num = 0;
-            else num = int.Parse(btnBacktracking[x, y].Text);
+            if (btnSudoku[x, y].Text == "") num = 0;
+            else num = int.Parse(btnSudoku[x, y].Text);
 
             num = (num + 1) % 10;
             if (num == 0)
             {
-                btnBacktracking[x, y].Text = "";
+                btnSudoku[x, y].Text = "";
             }
             else
             {
-                btnBacktracking[x, y].Text = num.ToString();
+                btnSudoku[x, y].Text = num.ToString();
             }
         }
         private void Clear()
@@ -221,8 +228,8 @@ namespace GameSudoku
             {
                 for (int j = 0; j < Cons.n; j++)
                 {
-                    btnBacktracking[i, j].Text = "";
-                    btnBacktracking[i, j].ForeColor = Color.Cyan;
+                    btnSudoku[i, j].Text = "";
+                    btnSudoku[i, j].ForeColor = Color.Cyan;
                 }
             }
         }
@@ -256,11 +263,11 @@ namespace GameSudoku
                                 {
                                     if (int.Parse(splitLines[i]) == 0)
                                     {
-                                        btnBacktracking[j, i].Text = "";
+                                        btnSudoku[j, i].Text = "";
                                     }
                                     else
                                     {
-                                        btnBacktracking[j, i].Text = splitLines[i];
+                                        btnSudoku[j, i].Text = splitLines[i];
                                     }
                                 }
                                 else
@@ -314,30 +321,29 @@ namespace GameSudoku
         protected Stack<int[]> hints = new Stack<int[]>();
 
         // find the solution
-        public bool solveHeu(Button[,] btnBacktracking)
+        public bool solveHeu(Button[,] btnSudoku)
         {
             updateValues();
             if (blankCells.Count() != 0)
             {
-
                 Value vals = blankCells.Dequeue();// trả về phần tử đầu tiên và xoá nó ra khỏi PriorityQueue.
                 int row = vals.getRow(), col = vals.getCol();
 
                 foreach(char num in vals.getValues())
                 {
-                    if (isValid(btnBacktracking, row, col, num))
+                    if (isValid(btnSudoku, row, col, num))
                     {
                         Demo(row, col, num);
-                        btnBacktracking[row,col].Text = num.ToString();
+                        btnSudoku[row,col].Text = num.ToString();
                         int[] cell = {row, col, Convert.ToInt32(num)};
                         route.Enqueue(cell);
-                        if (solveHeu(btnBacktracking))
+                        if (solveHeu(btnSudoku))
                         {
                             hints.Push(cell);
                             return true;
                         }
                         // there are no solutions for this num
-                        btnBacktracking[row, col].Text = "";
+                        btnSudoku[row, col].Text = "";
                         int[] cell2 = { row, col, 0 };
                         route.Enqueue(cell2);
                     }
@@ -357,14 +363,14 @@ namespace GameSudoku
             for (int row = 0; row < 9; row++)
                 for (int col = 0; col < 9; col++)
                 {
-                    if (btnBacktracking[row, col].Text == "")
+                    if (btnSudoku[row, col].Text == "")
                     {
                         Value val = possibleValues(row, col);
                         values[row, col] = val;
                         val2[d++] = val;
                     }
                 }
-            for(int i = 0; i < d - 1; i++)
+            for (int i = 0; i < d - 1; i++)
                 for(int j = i+1; j < d; j++)
                     if(val2[i].compareTo(val2[j])>0)
                         Swap(ref val2[i], ref val2[j]);
@@ -383,10 +389,10 @@ namespace GameSudoku
         private Value possibleValues(int row, int col)
         {
             Value result = new Value(row, col);
-            if (btnBacktracking[row, col].Text != "")
+            if (btnSudoku[row, col].Text != "")
                 return result;
             for (char i = '1'; i <= '9'; i++)
-                if (isValid(btnBacktracking, row, col, i))
+                if (isValid(btnSudoku, row, col, i))
                     result.add(i);
             return result;
         }
