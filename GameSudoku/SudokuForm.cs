@@ -110,7 +110,7 @@ namespace GameSudoku
                             {
                                 if (btnSudoku[i, j].Text == btnSudoku[k, j].Text)
                                     return false;
-                            }
+                            } 
                         }
                         for (int k = 0; k < i; ++k)  // kiem tra theo hang
                         {
@@ -120,7 +120,7 @@ namespace GameSudoku
                                     return false;
                             }
                         }
-                        for (int k = j + 1; k < 9; ++k)  // kiem tra theo hang
+                        for (int k = j + 1; k < 9; ++k)  // kiem tra theo cot
                         {
                             if (btnSudoku[i, j].Text != "")
                             {
@@ -128,7 +128,7 @@ namespace GameSudoku
                                     return false;
                             }
                         }
-                        for (int k = 0; k < j; ++k)  // kiem tra theo hang
+                        for (int k = 0; k < j; ++k)  // kiem tra theo cot
                         {
                             if (btnSudoku[i, j].Text != "")
                             {
@@ -299,10 +299,6 @@ namespace GameSudoku
         {
             tick++;
             labeltick.Text = tick.ToString();
-            if (tick == 60)
-            {
-                tick = 0;
-            }
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -317,8 +313,6 @@ namespace GameSudoku
         //--------------------------Heuristic BT--------------------------
         Value[,] values = new Value[9, 9];
         Queue<Value> blankCells = new Queue<Value>();
-        protected Queue<int[]> route = new Queue<int[]>(new LinkedList<int[]>());
-        protected Stack<int[]> hints = new Stack<int[]>();
 
         // find the solution
         public bool solveHeu(Button[,] btnSudoku)
@@ -326,7 +320,8 @@ namespace GameSudoku
             updateValues();
             if (blankCells.Count() != 0)
             {
-                Value vals = blankCells.Dequeue();// trả về phần tử đầu tiên và xoá nó ra khỏi PriorityQueue.
+                // trả về phần tử đầu tiên và xoá nó ra khỏi PriorityQueue.
+                Value vals = blankCells.Dequeue();
                 int row = vals.getRow(), col = vals.getCol();
 
                 foreach(char num in vals.getValues())
@@ -335,17 +330,12 @@ namespace GameSudoku
                     {
                         Demo(row, col, num);
                         btnSudoku[row,col].Text = num.ToString();
-                        int[] cell = {row, col, Convert.ToInt32(num)};
-                        route.Enqueue(cell);
                         if (solveHeu(btnSudoku))
                         {
-                            hints.Push(cell);
                             return true;
                         }
                         // there are no solutions for this num
                         btnSudoku[row, col].Text = "";
-                        int[] cell2 = { row, col, 0 };
-                        route.Enqueue(cell2);
                     }
                 }
                 // no solutions
@@ -360,8 +350,8 @@ namespace GameSudoku
             Value[] val2 = new Value[9*9];
             int d = 0;
             blankCells.Clear();
-            for (int row = 0; row < 9; row++)
-                for (int col = 0; col < 9; col++)
+            for (int row = 0; row < Cons.n; row++)
+                for (int col = 0; col < Cons.n; col++)
                 {
                     if (btnSudoku[row, col].Text == "")
                     {

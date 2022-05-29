@@ -37,7 +37,6 @@ namespace GameSudoku
 			return values;
 		}
 
-
 		public int compareTo(Value val)
 		{
 			if (values.Count() > val.size())
@@ -48,7 +47,6 @@ namespace GameSudoku
 				return -1;
 			return 1;
 		}
-
 
 		public int getRow()
 		{
